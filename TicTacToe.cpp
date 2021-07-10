@@ -1,100 +1,100 @@
-#include <stdio.h>
+#include<stdio.h>
+int winner = 0;
+int board[3][3] = {{0,0,0},
+                   {0,0,0},
+                   {0,0,0}};
+int count = 9;
 
-int gameboard[3][3] = {};
-int condition = 0;
-
-int printboard(){
-    for(int x = 1;x<=3;x++){
-        for(int y = 1; y <= 3; y++){
-            printf("%d",gameboard[x][y]);
-        }
-        printf("\n");
+int print(){
+  for(int x = 0;x<3;x++){
+    for(int y = 0; y < 3; y++){
+      printf("%d",board[x][y]);
     }
-    return 0;
+    printf("\n");
+  }
+  return 0;
+
 }
 
-int winner(){
-	for(int x = 0; x < 3; x++){
-		for(int y = 0; y < 3; y++){
-			if(gameboard[x][y] == 1){ // vertically
-				condition = 1;
-			
-			}
-			if(gameboard[x][y] == 2){ // horizontally
-				condition = 2;
-			}
-			else{
-				if(gameboard[1][1] && gameboard[1][2] && gameboard[1][3] == 1 ){ // diagonally 
-					condition = 1;
-				}
-				else if(gameboard[3][1] && gameboard[3][2] && gameboard[3][3] == 1 ){ // diagonally
-					condition = 1;
-				}
-				else if(gameboard[1][1] && gameboard[1][2] && gameboard[1][3] == 2 ){ // diagonally
-					condition = 2;
-				}
-				else if(gameboard[3][1] && gameboard[3][2] && gameboard[3][3] == 2 ){
-					condition = 2;
-				}
-				else{
-					condition = 0;
-				}
-				
-			}
-		}
-	}
-	
-	
-		
-		
-	
-	printf("%d,wins",condition);
+int checkwinner(){
+  //vertically
+  if(board[0][0] == board[0][1] && board[0][1] == board[0][2] && board[0][0] != 0){
+    winner = board[0][0];
+    printf("player %d wins",winner);
+  }
+  else if(board[1][0] == board[1][1] && board[1][1] == board[1][2] && board[1][0] != 0){
+    winner = board[1][0];
+    printf("player %d wins",winner);
+  }
+  
+  else if(board[2][0] == board[2][1] && board[2][1] == board[2][2] && board[2][0] != 0){
+    winner = board[2][0];
+    printf("player %d wins",winner);
+  
+  }
+  else{
+    // diagonal
+    if(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[0][0] != 0){
+      winner = board[0][0];
+      printf("player %d wins",winner);
+    }
+    if(board[0][2] == board[1][1] && board[1][1] == board[2][0] && board[0][2] != 0){
+      winner = board[0][2];
+      printf("player %d wins",winner);
+    }
+    if(count == 0 && winner == 0){
+       printf("tie game");
+    }
+      //printf("tie game");
+    
+  
 	
 }
+}
+
 int main(){
-    printboard();
-    int playerone = 1;
-    int playertwo = 2;
-    //int state = 1;
-    int movex,movey;
-    int i = 9;
-    while(i--){
-    	if(condition != 0){
-    		printf("/n%d winner is ",condition);
+
+  printf("[0][0],[0][1],[0][2]");
+  printf("\n[1][0],[1][1],[1][2]");
+  printf("\n[2][0],[2][1],[2][2]");
+  int playerone = 1;
+  int playertwo = 2;
+  
+  int x,y;
+  while(count--){
+    if(count%2 != 0){
+      printf("\n playertwo's turn");
+      scanf("%d%d",&x,&y);
+      if(board[x][y] == 0){
+        board[x][y] = 2;
+        print();
+        checkwinner();
+        if(winner != 0){
+        	break;
 		}
-		
-		else{
-			if(i%2!=0){
-        		printf("player1's turn");
-        		scanf("%d%d",&movex,&movey);
-        		i = i + 1;
-        	if(gameboard[movex][movey] == 0){
-            	gameboard[movex][movey] = playerone;
-          		//winner();
-            	printboard();
-        	}
-        	else{}{
-            	printf("this square is already filled");
-            	i = i - 1;
-            	
-            
-        }
-        		/// for player one updating the board
-			if(i%2!=0){
-    			printf("player2's turn");
-        		scanf("%d%d",&movex,&movey);
-        		i = i +1;
-        	if(gameboard[movex][movey] == 0){
-            	gameboard[movex][movey] = playertwo;
-         	    //winner();
-            	printboard();
-        	}
-        	else{}{
-            	printf("this square is already filled");
-            	i = i - 1;
-       		}
-			}
-	}
-}
-}
+      }
+      else{
+        printf("\n this square is already filled");
+        count++;
+      }
+    }
+    if(count%2 == 0){
+      printf("\n playerone's turn");
+      scanf("%d%d",&x,&y);
+      if(board[x][y] == 0){
+        board[x][y] = 1;
+        print();
+        checkwinner();
+        if(winner != 0){
+        	break;
+		}
+      }
+      else{
+        printf("\n this square is already filled");
+        count++;
+      }
+    }
+  }
+  
+  
 }
